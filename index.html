@@ -50,7 +50,8 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
   .center { text-align: center; }
   img { max-width: 100%; display: block; }
 
-  #urgency-bar { position: sticky; top: 0; z-index: 60; background: var(--ink); color: #fff; text-align: center; padding: 11px 16px; font-size: 12.5px; font-weight: 700; letter-spacing: .04em; }
+  .logo-header { text-align: center; padding: 30px 16px; background: var(--green-pale); }
+  .logo-header img { height: 68px; width: auto; margin: 0 auto; display: block; }
 
   .badge-pill { display: inline-flex; align-items: center; gap: 7px; background: var(--green-pale); color: var(--green-deep); border: 1px solid #BCE6D9; padding: 7px 16px; border-radius: 999px; font-size: 12.5px; font-weight: 700; }
 
@@ -161,7 +162,7 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
 </head>
 <body>
 
-  <div id="urgency-bar">NOVA TURMA ABERTA — <span id="urgency-date"></span></div>
+  <div class="logo-header"><img src="LOGO_MEDMENTOR.webp" alt="MedMentor"></div>
 
   <section class="hero wrap">
     <span class="badge-pill">
@@ -392,14 +393,6 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
   </footer>
 
 <script>
-  const diasSemana = ['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
-  const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
-  (function() {
-    const now = new Date();
-    const el = document.getElementById('urgency-date');
-    if (el) el.textContent = now.getDate() + ' de ' + meses[now.getMonth()] + ' de ' + now.getFullYear();
-  })();
-
   document.querySelectorAll('.faq-q').forEach(q => {
     q.addEventListener('click', () => q.closest('.faq-item').classList.toggle('open'));
   });
