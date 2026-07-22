@@ -511,12 +511,10 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
   (function() {
     const track = document.getElementById('galleryTrack');
     if (!track) return;
-    const pause = () => track.classList.add('paused');
-    const resume = () => track.classList.remove('paused');
-    track.addEventListener('touchstart', pause, { passive: true });
-    track.addEventListener('touchend', resume, { passive: true });
-    track.addEventListener('mouseenter', pause);
-    track.addEventListener('mouseleave', resume);
+    if (window.matchMedia('(hover: hover)').matches) {
+      track.addEventListener('mouseenter', () => track.classList.add('paused'));
+      track.addEventListener('mouseleave', () => track.classList.remove('paused'));
+    }
   })();
 
   document.querySelectorAll('.js-checkout').forEach(btn => {
