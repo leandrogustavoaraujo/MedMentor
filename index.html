@@ -399,20 +399,18 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
   /* ============================================================
      GALLERY — DEVICE FRAME CAROUSEL
      ============================================================ */
-  .gallery-viewport { overflow: hidden; margin: 56px -24px 0; padding: 6px 0 20px 24px; }
+  .gallery-viewport { overflow: hidden; margin: 56px -24px 0; padding: 6px 0 20px 24px; pointer-events: none; }
   .gallery-track { display: flex; gap: 18px; width: max-content; animation: gallerySlide 30s linear infinite; }
-  .gallery-track.paused { animation-play-state: paused; }
   @keyframes gallerySlide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .gallery-track { animation: none; } }
   .gallery-item {
     flex: 0 0 240px; border-radius: var(--r-md); overflow: hidden;
     background: var(--surface); border: 1px solid var(--line);
     box-shadow: var(--shadow-md);
-    transition: transform .35s var(--ease), box-shadow .35s var(--ease), opacity .35s var(--ease);
-    opacity: .85;
+    opacity: .92;
   }
   .gallery-item:nth-child(odd)  { transform: perspective(700px) rotateY(-3deg) scale(.97); }
   .gallery-item:nth-child(even) { transform: perspective(700px) rotateY(3deg) scale(.97); }
-  .gallery-item:hover { opacity: 1; transform: perspective(700px) rotateY(0) scale(1.02) translateY(-4px) !important; box-shadow: var(--shadow-lg); }
   .gallery-bar { display: flex; gap: 5px; padding: 10px 12px; border-bottom: 1px solid var(--line-soft); }
   .gallery-bar span { width: 6px; height: 6px; border-radius: 50%; background: var(--line); }
   .gallery-item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
@@ -754,7 +752,7 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
       <div class="eyebrow-wrap"><span class="eyebrow"><span class="eyebrow-dot"></span>Por dentro do app</span></div>
       <h2 class="section-title">Como é praticar no MedMentor</h2>
     </div>
-    <div class="gallery-viewport reveal">
+    <div class="gallery-viewport">
       <div class="gallery-track" id="galleryTrack">
         <div class="gallery-item"><div class="gallery-bar"><span></span><span></span><span></span></div><img src="APP_TELA_1.webp" alt="Tela do guia interativo do MedMentor"><span class="gallery-label">Guia interativo</span></div>
         <div class="gallery-item"><div class="gallery-bar"><span></span><span></span><span></span></div><img src="APP_TELA_2.webp" alt="Tela de caso clínico personalizado do MedMentor"><span class="gallery-label">Caso clínico personalizado</span></div>
@@ -974,23 +972,9 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
     });
   } catch (e) {}
 
-  // Gallery marquee — pause on hover/touch, never stuck (watchdog auto-resumes)
-  try {
-    (function() {
-      const track = document.getElementById('galleryTrack');
-      if (!track) return;
-      const pause = () => track.classList.add('paused');
-      const resume = () => track.classList.remove('paused');
-      track.addEventListener('touchstart', pause, { passive: true });
-      track.addEventListener('touchend', resume, { passive: true });
-      track.addEventListener('touchcancel', resume, { passive: true });
-      track.addEventListener('mouseenter', pause);
-      track.addEventListener('mouseleave', resume);
-      // Safety net: the marquee must be infinite — never let a stray/unmatched
-      // touch or pointer event leave it paused for good.
-      setInterval(resume, 4000);
-    })();
-  } catch (e) {}
+  // Gallery marquee is purely decorative — no pause-on-hover/touch, no interactivity,
+  // nothing to get stuck. It just runs, forever, click/touch-proof via pointer-events:none.
+
 
   // Checkout tracking
   try {
@@ -1029,7 +1013,7 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
   try {
     (function() {
       if (!window.matchMedia('(hover: hover)').matches) return;
-      document.querySelectorAll('.why-card, .testi-card, .compare-card, .bento-cell, .price-card, .gallery-item').forEach(function(el) {
+      document.querySelectorAll('.why-card, .testi-card, .compare-card, .bento-cell, .price-card').forEach(function(el) {
         el.addEventListener('mousemove', function(e) {
           var r = el.getBoundingClientRect();
           el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
