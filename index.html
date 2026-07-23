@@ -168,6 +168,15 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
   }
   .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 1px 0 rgba(255,255,255,.24) inset, 0 12px 30px rgba(10,194,135,.38), 0 4px 10px rgba(10,194,135,.2); }
   .btn-primary:active { transform: translateY(0) scale(.98); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .btn-primary:not(.magnetic) { animation: btnPulse 2.6s ease-in-out infinite; }
+    .btn-primary:not(.magnetic):hover { animation-play-state: paused; }
+    @keyframes btnPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 1px 0 rgba(255,255,255,.2) inset, 0 6px 18px rgba(10,194,135,.28), 0 2px 6px rgba(10,194,135,.18); }
+      50%      { transform: scale(1.045); box-shadow: 0 1px 0 rgba(255,255,255,.22) inset, 0 10px 28px rgba(10,194,135,.44), 0 0 0 8px rgba(10,194,135,.10); }
+    }
+  }
   .btn-block { display: flex; width: 100%; }
   .btn-lg { padding: 18px 30px; font-size: 15.5px; border-radius: var(--r-md); }
   .btn-row { display: flex; justify-content: center; margin-top: 40px; }
@@ -390,8 +399,8 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
   /* ============================================================
      GALLERY — DEVICE FRAME CAROUSEL
      ============================================================ */
-  .gallery-viewport { overflow: hidden; margin: 56px -24px 0; padding: 6px 0 20px; }
-  .gallery-track { display: flex; gap: 18px; width: max-content; padding: 0 24px; animation: gallerySlide 30s linear infinite; }
+  .gallery-viewport { overflow: hidden; margin: 56px -24px 0; padding: 6px 0 20px 24px; }
+  .gallery-track { display: flex; gap: 18px; width: max-content; animation: gallerySlide 30s linear infinite; }
   .gallery-track.paused { animation-play-state: paused; }
   @keyframes gallerySlide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   .gallery-item {
@@ -745,7 +754,7 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
       <div class="eyebrow-wrap"><span class="eyebrow"><span class="eyebrow-dot"></span>Por dentro do app</span></div>
       <h2 class="section-title">Como é praticar no MedMentor</h2>
     </div>
-    <div class="gallery-viewport">
+    <div class="gallery-viewport reveal">
       <div class="gallery-track" id="galleryTrack">
         <div class="gallery-item"><div class="gallery-bar"><span></span><span></span><span></span></div><img src="APP_TELA_1.webp" alt="Tela do guia interativo do MedMentor"><span class="gallery-label">Guia interativo</span></div>
         <div class="gallery-item"><div class="gallery-bar"><span></span><span></span><span></span></div><img src="APP_TELA_2.webp" alt="Tela de caso clínico personalizado do MedMentor"><span class="gallery-label">Caso clínico personalizado</span></div>
@@ -965,7 +974,7 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
     });
   } catch (e) {}
 
-  // Gallery marquee — pause on hover/touch
+  // Gallery marquee — pause on hover/touch, never stuck (watchdog auto-resumes)
   try {
     (function() {
       const track = document.getElementById('galleryTrack');
@@ -974,8 +983,12 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
       const resume = () => track.classList.remove('paused');
       track.addEventListener('touchstart', pause, { passive: true });
       track.addEventListener('touchend', resume, { passive: true });
+      track.addEventListener('touchcancel', resume, { passive: true });
       track.addEventListener('mouseenter', pause);
       track.addEventListener('mouseleave', resume);
+      // Safety net: the marquee must be infinite — never let a stray/unmatched
+      // touch or pointer event leave it paused for good.
+      setInterval(resume, 4000);
     })();
   } catch (e) {}
 
