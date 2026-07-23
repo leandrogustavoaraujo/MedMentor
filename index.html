@@ -32,9 +32,9 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
      DESIGN TOKENS
      ============================================================ */
   :root {
-    --bg:            #FFFFFF;
-    --bg-soft:       #FAFBFA;
-    --surface:       #FFFFFF;
+    --bg:            #F4EEE0;
+    --bg-soft:       #ECE2CB;
+    --surface:       #FFFDF7;
     --ink:           #0B120E;
     --text:          #1D2622;
     --muted:         #67716B;
@@ -70,7 +70,7 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+  html { scroll-behavior: smooth; scroll-padding-top: 84px; overflow-x: hidden; }
 
   /* Custom scrollbar */
   ::-webkit-scrollbar { width: 10px; height: 10px; }
@@ -109,6 +109,8 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
     -moz-osx-font-smoothing: grayscale;
     padding-top: 76px;
     letter-spacing: -.006em;
+    overflow-x: hidden;
+    width: 100%;
   }
   img { max-width: 100%; display: block; }
   a { color: inherit; }
@@ -176,13 +178,13 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
   .nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 300;
     height: 76px; display: flex; align-items: center;
-    background: rgba(255,255,255,.7);
+    background: rgba(244,238,224,.72);
     backdrop-filter: blur(18px) saturate(180%);
     -webkit-backdrop-filter: blur(18px) saturate(180%);
     border-bottom: 1px solid transparent;
     transition: background .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease);
   }
-  .nav.scrolled { background: rgba(255,255,255,.86); border-bottom-color: var(--line); box-shadow: 0 1px 0 rgba(9,20,15,.02), 0 12px 30px rgba(9,20,15,.04); }
+  .nav.scrolled { background: rgba(244,238,224,.9); border-bottom-color: var(--line); box-shadow: 0 1px 0 rgba(9,20,15,.02), 0 12px 30px rgba(9,20,15,.04); }
   .nav-inner { max-width: 1160px; margin: 0 auto; width: 100%; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
   .nav-logo { display: inline-flex; align-items: center; transition: transform .2s var(--ease); }
   .nav-logo:hover { transform: scale(1.04); }
@@ -253,7 +255,7 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
   .float-chip {
     position: absolute;
     display: inline-flex; align-items: center; gap: 6px;
-    background: rgba(255,255,255,.92);
+    background: rgba(255,253,247,.92);
     backdrop-filter: blur(10px);
     border: 1px solid var(--line);
     box-shadow: var(--shadow-md);
@@ -585,8 +587,8 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
   @media (prefers-reduced-motion: no-preference) {
     @keyframes heroIn { from { opacity: 0; transform: perspective(1200px) translateY(26px) rotateX(10deg); } to { opacity: 1; transform: perspective(1200px) translateY(0) rotateX(0); } }
     .hero-visual { animation: heroIn .9s var(--ease-out) .1s both; }
-    .reveal { opacity: 0; transform: translateY(28px); filter: blur(6px); transition: opacity .7s var(--ease-out), transform .7s var(--ease-out), filter .7s var(--ease-out); will-change: opacity, transform, filter; }
-    .reveal.revealed { opacity: 1; transform: translateY(0); filter: blur(0); }
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .55s var(--ease-out), transform .55s var(--ease-out); will-change: opacity, transform; }
+    .reveal.revealed { opacity: 1; transform: translateY(0); }
   }
   @media (prefers-reduced-motion: reduce) {
     .float-chip, .float-preview { animation: none; }
@@ -743,7 +745,7 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
       <div class="eyebrow-wrap"><span class="eyebrow"><span class="eyebrow-dot"></span>Por dentro do app</span></div>
       <h2 class="section-title">Como é praticar no MedMentor</h2>
     </div>
-    <div class="gallery-viewport reveal">
+    <div class="gallery-viewport">
       <div class="gallery-track" id="galleryTrack">
         <div class="gallery-item"><div class="gallery-bar"><span></span><span></span><span></span></div><img src="APP_TELA_1.webp" alt="Tela do guia interativo do MedMentor"><span class="gallery-label">Guia interativo</span></div>
         <div class="gallery-item"><div class="gallery-bar"><span></span><span></span><span></span></div><img src="APP_TELA_2.webp" alt="Tela de caso clínico personalizado do MedMentor"><span class="gallery-label">Caso clínico personalizado</span></div>
@@ -800,7 +802,7 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
 
     <div class="testi-carousel-wrap">
       <div class="testi-carousel" id="testiCarousel">
-        <div class="testi-card reveal">
+        <div class="testi-card">
           <svg class="testi-quote" width="26" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9.5 2C5.9 3 3 6.7 3 10.5c0 2.6 1.6 4.5 4 4.5 2.1 0 3.5-1.5 3.5-3.4 0-1.7-1.1-3-2.8-3.2C8 6.3 9.4 4.6 11.3 4L9.5 2zm10 0c-3.6 1-6.5 4.7-6.5 8.5 0 2.6 1.6 4.5 4 4.5 2.1 0 3.5-1.5 3.5-3.4 0-1.7-1.1-3-2.8-3.2C18 6.3 19.4 4.6 21.3 4L19.5 2z"/></svg>
           <div class="testi-stars">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="#0AC287"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
@@ -819,7 +821,7 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
           </div>
         </div>
 
-        <div class="testi-card reveal">
+        <div class="testi-card">
           <svg class="testi-quote" width="26" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9.5 2C5.9 3 3 6.7 3 10.5c0 2.6 1.6 4.5 4 4.5 2.1 0 3.5-1.5 3.5-3.4 0-1.7-1.1-3-2.8-3.2C8 6.3 9.4 4.6 11.3 4L9.5 2zm10 0c-3.6 1-6.5 4.7-6.5 8.5 0 2.6 1.6 4.5 4 4.5 2.1 0 3.5-1.5 3.5-3.4 0-1.7-1.1-3-2.8-3.2C18 6.3 19.4 4.6 21.3 4L19.5 2z"/></svg>
           <div class="testi-stars">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="#0AC287"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
@@ -838,7 +840,7 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
           </div>
         </div>
 
-        <div class="testi-card reveal">
+        <div class="testi-card">
           <svg class="testi-quote" width="26" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9.5 2C5.9 3 3 6.7 3 10.5c0 2.6 1.6 4.5 4 4.5 2.1 0 3.5-1.5 3.5-3.4 0-1.7-1.1-3-2.8-3.2C8 6.3 9.4 4.6 11.3 4L9.5 2zm10 0c-3.6 1-6.5 4.7-6.5 8.5 0 2.6 1.6 4.5 4 4.5 2.1 0 3.5-1.5 3.5-3.4 0-1.7-1.1-3-2.8-3.2C18 6.3 19.4 4.6 21.3 4L19.5 2z"/></svg>
           <div class="testi-stars">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="#0AC287"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
@@ -951,199 +953,230 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
   </section>
 
   <footer>
-    <b><span style="color:var(--green)">MED</span>MENTOR</b> — Todos os direitos reservados.<br>
+    <b><span style="color:var(--green)">MED</span>MENTOR</b> Todos os direitos reservados.<br>
     Conteúdo educativo para estudantes e profissionais da área da saúde. Não substitui avaliação médica nem orientação clínica individualizada.
   </footer>
 
 <script>
   // FAQ accordion
-  document.querySelectorAll('.faq-q').forEach(q => {
-    q.addEventListener('click', () => q.closest('.faq-item').classList.toggle('open'));
-  });
+  try {
+    document.querySelectorAll('.faq-q').forEach(q => {
+      q.addEventListener('click', () => q.closest('.faq-item').classList.toggle('open'));
+    });
+  } catch (e) {}
 
   // Gallery marquee — pause on hover/touch
-  (function() {
-    const track = document.getElementById('galleryTrack');
-    if (!track) return;
-    const pause = () => track.classList.add('paused');
-    const resume = () => track.classList.remove('paused');
-    track.addEventListener('touchstart', pause, { passive: true });
-    track.addEventListener('touchend', resume, { passive: true });
-    track.addEventListener('mouseenter', pause);
-    track.addEventListener('mouseleave', resume);
-  })();
+  try {
+    (function() {
+      const track = document.getElementById('galleryTrack');
+      if (!track) return;
+      const pause = () => track.classList.add('paused');
+      const resume = () => track.classList.remove('paused');
+      track.addEventListener('touchstart', pause, { passive: true });
+      track.addEventListener('touchend', resume, { passive: true });
+      track.addEventListener('mouseenter', pause);
+      track.addEventListener('mouseleave', resume);
+    })();
+  } catch (e) {}
 
   // Checkout tracking
-  document.querySelectorAll('.js-checkout').forEach(btn => {
-    btn.addEventListener('click', () => { if (typeof fbq === 'function') fbq('track', 'InitiateCheckout'); });
-  });
+  try {
+    document.querySelectorAll('.js-checkout').forEach(btn => {
+      btn.addEventListener('click', () => { if (typeof fbq === 'function') fbq('track', 'InitiateCheckout'); });
+    });
+  } catch (e) {}
 
   // Testimonial carousel dot sync
-  (function() {
-    var carousel = document.getElementById('testiCarousel');
-    var dots = document.querySelectorAll('.testi-dot');
-    if (!carousel || !dots.length) return;
-    var updateDots = function() {
-      var mid = carousel.scrollLeft + carousel.offsetWidth / 2;
-      var cards = carousel.querySelectorAll('.testi-card');
-      var closest = 0, minDist = Infinity;
-      cards.forEach(function(c, i) {
-        var dist = Math.abs((c.offsetLeft - carousel.offsetLeft) + c.offsetWidth / 2 - mid);
-        if (dist < minDist) { minDist = dist; closest = i; }
-      });
-      dots.forEach(function(d, i) { d.classList.toggle('active', i === closest); });
-    };
-    carousel.addEventListener('scroll', updateDots, { passive: true });
-    dots.forEach(function(d, i) {
-      d.addEventListener('click', function() {
+  try {
+    (function() {
+      var carousel = document.getElementById('testiCarousel');
+      var dots = document.querySelectorAll('.testi-dot');
+      if (!carousel || !dots.length) return;
+      var updateDots = function() {
+        var mid = carousel.scrollLeft + carousel.offsetWidth / 2;
         var cards = carousel.querySelectorAll('.testi-card');
-        if (cards[i]) carousel.scrollTo({ left: cards[i].offsetLeft - carousel.offsetLeft, behavior: 'smooth' });
+        var closest = 0, minDist = Infinity;
+        cards.forEach(function(c, i) {
+          var dist = Math.abs((c.offsetLeft - carousel.offsetLeft) + c.offsetWidth / 2 - mid);
+          if (dist < minDist) { minDist = dist; closest = i; }
+        });
+        dots.forEach(function(d, i) { d.classList.toggle('active', i === closest); });
+      };
+      carousel.addEventListener('scroll', updateDots, { passive: true });
+      dots.forEach(function(d, i) {
+        d.addEventListener('click', function() {
+          var cards = carousel.querySelectorAll('.testi-card');
+          if (cards[i]) carousel.scrollTo({ left: cards[i].offsetLeft - carousel.offsetLeft, behavior: 'smooth' });
+        });
       });
-    });
-  })();
+    })();
+  } catch (e) {}
 
-  // Spotlight cursor glow
-  (function() {
-    if (!window.matchMedia('(hover: hover)').matches) return;
-    document.querySelectorAll('.why-card, .testi-card, .compare-card, .bento-cell, .price-card, .gallery-item').forEach(function(el) {
-      el.addEventListener('mousemove', function(e) {
-        var r = el.getBoundingClientRect();
-        el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-        el.style.setProperty('--my', (e.clientY - r.top) + 'px');
-      }, { passive: true });
-    });
-  })();
+  // Spotlight cursor glow (desktop only)
+  try {
+    (function() {
+      if (!window.matchMedia('(hover: hover)').matches) return;
+      document.querySelectorAll('.why-card, .testi-card, .compare-card, .bento-cell, .price-card, .gallery-item').forEach(function(el) {
+        el.addEventListener('mousemove', function(e) {
+          var r = el.getBoundingClientRect();
+          el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+          el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+        }, { passive: true });
+      });
+    })();
+  } catch (e) {}
 
-  // Scroll reveal
+  // Scroll reveal (with fail-safe: nothing can stay permanently invisible)
   (function() {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var staggerGroups = ['.compare-card', '.bento .bento-cell', '.why-grid .why-card', '.testi-carousel .testi-card'];
-    staggerGroups.forEach(function(sel) {
-      document.querySelectorAll(sel).forEach(function(el, i) {
-        el.classList.add('reveal');
-        el.style.transitionDelay = (i * 70) + 'ms';
+    var revealAllNow = function() {
+      document.querySelectorAll('.reveal').forEach(function(el) { el.classList.add('revealed'); });
+    };
+    try {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { revealAllNow(); return; }
+      var staggerGroups = ['.compare-card', '.bento .bento-cell', '.why-grid .why-card'];
+      staggerGroups.forEach(function(sel) {
+        document.querySelectorAll(sel).forEach(function(el, i) {
+          el.classList.add('reveal');
+          el.style.transitionDelay = (i * 70) + 'ms';
+        });
       });
-    });
-    var obs = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) { entry.target.classList.add('revealed'); obs.unobserve(entry.target); }
-      });
-    }, { threshold: 0.06, rootMargin: '0px 0px -32px 0px' });
-    document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
+      if (!('IntersectionObserver' in window)) { revealAllNow(); return; }
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) { entry.target.classList.add('revealed'); obs.unobserve(entry.target); }
+        });
+      }, { threshold: 0.06, rootMargin: '0px 0px -32px 0px' });
+      document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
+      // Belt-and-suspenders: force everything visible after 2.5s no matter what happens above
+      setTimeout(revealAllNow, 2500);
+    } catch (err) {
+      revealAllNow();
+    }
   })();
 
   // Navbar scroll state + scroll progress bar
-  (function() {
-    var nav = document.getElementById('navbar');
-    var bar = document.getElementById('scrollProgress');
-    function onScroll() {
-      if (nav) nav.classList.toggle('scrolled', window.scrollY > 20);
-      if (bar) {
-        var h = document.documentElement;
-        var pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
-        bar.style.width = (isFinite(pct) ? pct : 0) + '%';
+  try {
+    (function() {
+      var nav = document.getElementById('navbar');
+      var bar = document.getElementById('scrollProgress');
+      function onScroll() {
+        if (nav) nav.classList.toggle('scrolled', window.scrollY > 20);
+        if (bar) {
+          var h = document.documentElement;
+          var pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+          bar.style.width = (isFinite(pct) ? pct : 0) + '%';
+        }
       }
-    }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-  })();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+  } catch (e) {}
 
   // Animated count-up (hero badge number)
-  (function() {
-    var el = document.querySelector('.count');
-    if (!el) return;
-    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var target = parseInt(el.getAttribute('data-target'), 10) || 0;
-    var format = function(n) { return Math.round(n).toLocaleString('pt-BR'); };
-    if (reduce) { el.textContent = format(target); return; }
-    var done = false;
-    var run = function() {
-      if (done) return;
-      done = true;
-      var start = null, duration = 1400;
-      function step(ts) {
-        if (!start) start = ts;
-        var p = Math.min((ts - start) / duration, 1);
-        var eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = format(target * eased);
-        if (p < 1) requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
-    };
-    var obs = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) { if (e.isIntersecting) run(); });
-    }, { threshold: .6 });
-    obs.observe(el);
-  })();
+  try {
+    (function() {
+      var el = document.querySelector('.count');
+      if (!el) return;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var target = parseInt(el.getAttribute('data-target'), 10) || 0;
+      var format = function(n) { return Math.round(n).toLocaleString('pt-BR'); };
+      if (reduce || !('IntersectionObserver' in window)) { el.textContent = format(target); return; }
+      var done = false;
+      var run = function() {
+        if (done) return;
+        done = true;
+        var start = null, duration = 1400;
+        function step(ts) {
+          if (!start) start = ts;
+          var p = Math.min((ts - start) / duration, 1);
+          var eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = format(target * eased);
+          if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      };
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) { if (e.isIntersecting) run(); });
+      }, { threshold: .6 });
+      obs.observe(el);
+    })();
+  } catch (e) {}
 
-  // Hero mouse parallax (glows + floating chips + device frame tilt)
-  (function() {
-    if (!window.matchMedia('(hover: hover)').matches) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var hero = document.getElementById('heroSection');
-    var frame = document.getElementById('deviceFrame');
-    var visual = document.getElementById('heroVisual');
-    var g1 = document.getElementById('heroGlow1');
-    var g2 = document.getElementById('heroGlow2');
-    if (!hero) return;
+  // Hero mouse parallax (glows + floating chips + device frame tilt) — desktop only
+  try {
+    (function() {
+      if (!window.matchMedia('(hover: hover)').matches) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var hero = document.getElementById('heroSection');
+      var frame = document.getElementById('deviceFrame');
+      var visual = document.getElementById('heroVisual');
+      var g1 = document.getElementById('heroGlow1');
+      var g2 = document.getElementById('heroGlow2');
+      if (!hero) return;
 
-    hero.addEventListener('mousemove', function(e) {
-      var r = hero.getBoundingClientRect();
-      var nx = (e.clientX - r.left) / r.width - .5;   // -0.5 .. 0.5
-      var ny = (e.clientY - r.top) / r.height - .5;
+      hero.addEventListener('mousemove', function(e) {
+        var r = hero.getBoundingClientRect();
+        var nx = (e.clientX - r.left) / r.width - .5;   // -0.5 .. 0.5
+        var ny = (e.clientY - r.top) / r.height - .5;
 
-      if (g1) g1.style.transform = 'translate(' + (nx * 30) + 'px,' + (ny * 30) + 'px)';
-      if (g2) g2.style.transform = 'translate(' + (nx * -24) + 'px,' + (ny * -24) + 'px)';
-      if (visual) visual.style.transform = 'translate(' + (nx * -14) + 'px,' + (ny * -10) + 'px)';
+        if (g1) g1.style.transform = 'translate(' + (nx * 30) + 'px,' + (ny * 30) + 'px)';
+        if (g2) g2.style.transform = 'translate(' + (nx * -24) + 'px,' + (ny * -24) + 'px)';
+        if (visual) visual.style.transform = 'translate(' + (nx * -14) + 'px,' + (ny * -10) + 'px)';
 
-      if (frame) {
-        var fr = frame.getBoundingClientRect();
-        var fx = (e.clientX - fr.left) / fr.width - .5;
-        var fy = (e.clientY - fr.top) / fr.height - .5;
-        frame.style.transform = 'perspective(1400px) rotateY(' + (-6 + fx * 10) + 'deg) rotateX(' + (3 - fy * 8) + 'deg)';
-      }
-    }, { passive: true });
+        if (frame) {
+          var fr = frame.getBoundingClientRect();
+          var fx = (e.clientX - fr.left) / fr.width - .5;
+          var fy = (e.clientY - fr.top) / fr.height - .5;
+          frame.style.transform = 'perspective(1400px) rotateY(' + (-6 + fx * 10) + 'deg) rotateX(' + (3 - fy * 8) + 'deg)';
+        }
+      }, { passive: true });
 
-    hero.addEventListener('mouseleave', function() {
-      if (frame) frame.style.transform = '';
-      if (visual) visual.style.transform = '';
-      if (g1) g1.style.transform = '';
-      if (g2) g2.style.transform = '';
-    });
-  })();
-
-  // Magnetic buttons
-  (function() {
-    if (!window.matchMedia('(hover: hover)').matches) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    document.querySelectorAll('.magnetic').forEach(function(btn) {
-      btn.addEventListener('mousemove', function(e) {
-        var r = btn.getBoundingClientRect();
-        var mx = (e.clientX - r.left) - r.width / 2;
-        var my = (e.clientY - r.top) - r.height / 2;
-        btn.style.transform = 'translate(' + (mx * .18) + 'px,' + (my * .28 - 2) + 'px)';
+      hero.addEventListener('mouseleave', function() {
+        if (frame) frame.style.transform = '';
+        if (visual) visual.style.transform = '';
+        if (g1) g1.style.transform = '';
+        if (g2) g2.style.transform = '';
       });
-      btn.addEventListener('mouseleave', function() { btn.style.transform = ''; });
-    });
-  })();
+    })();
+  } catch (e) {}
+
+  // Magnetic buttons — desktop only
+  try {
+    (function() {
+      if (!window.matchMedia('(hover: hover)').matches) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      document.querySelectorAll('.magnetic').forEach(function(btn) {
+        btn.addEventListener('mousemove', function(e) {
+          var r = btn.getBoundingClientRect();
+          var mx = (e.clientX - r.left) - r.width / 2;
+          var my = (e.clientY - r.top) - r.height / 2;
+          btn.style.transform = 'translate(' + (mx * .18) + 'px,' + (my * .28 - 2) + 'px)';
+        });
+        btn.addEventListener('mouseleave', function() { btn.style.transform = ''; });
+      });
+    })();
+  } catch (e) {}
 
   // Testimonial autoplay
-  (function() {
-    var carousel = document.getElementById('testiCarousel');
-    if (!carousel) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var paused = false;
-    var timer = setInterval(function() {
-      if (paused) return;
-      var cards = carousel.querySelectorAll('.testi-card');
-      var atEnd = carousel.scrollLeft + carousel.offsetWidth >= carousel.scrollWidth - 10;
-      if (atEnd) { carousel.scrollTo({ left: 0, behavior: 'smooth' }); return; }
-      var next = carousel.scrollLeft + cards[0].offsetWidth + 18;
-      carousel.scrollTo({ left: next, behavior: 'smooth' });
-    }, 4200);
-    ['mouseenter', 'touchstart'].forEach(function(ev) { carousel.addEventListener(ev, function() { paused = true; }, { passive: true }); });
-    ['mouseleave', 'touchend'].forEach(function(ev) { carousel.addEventListener(ev, function() { paused = false; }, { passive: true }); });
-  })();
+  try {
+    (function() {
+      var carousel = document.getElementById('testiCarousel');
+      if (!carousel) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var paused = false;
+      var timer = setInterval(function() {
+        if (paused) return;
+        var cards = carousel.querySelectorAll('.testi-card');
+        if (!cards.length) return;
+        var atEnd = carousel.scrollLeft + carousel.offsetWidth >= carousel.scrollWidth - 10;
+        if (atEnd) { carousel.scrollTo({ left: 0, behavior: 'smooth' }); return; }
+        var next = carousel.scrollLeft + cards[0].offsetWidth + 18;
+        carousel.scrollTo({ left: next, behavior: 'smooth' });
+      }, 4200);
+      ['mouseenter', 'touchstart'].forEach(function(ev) { carousel.addEventListener(ev, function() { paused = true; }, { passive: true }); });
+      ['mouseleave', 'touchend'].forEach(function(ev) { carousel.addEventListener(ev, function() { paused = false; }, { passive: true }); });
+    })();
+  } catch (e) {}
 </script>
 
 </body>
