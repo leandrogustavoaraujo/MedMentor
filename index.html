@@ -399,8 +399,12 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
   /* ============================================================
      GALLERY — DEVICE FRAME CAROUSEL
      ============================================================ */
-  .gallery-viewport { overflow: hidden; margin: 56px -24px 0; padding: 6px 0 20px 24px; pointer-events: none; }
-  .gallery-track { display: flex; width: max-content; will-change: transform; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+  .gallery-viewport {
+    overflow-x: scroll; overflow-y: hidden; margin: 56px -24px 0; padding: 6px 0 20px 24px;
+    pointer-events: none; scrollbar-width: none; -ms-overflow-style: none;
+  }
+  .gallery-viewport::-webkit-scrollbar { display: none; height: 0; }
+  .gallery-track { display: flex; width: max-content; }
   .gallery-item {
     flex: 0 0 240px; margin-right: 18px; border-radius: var(--r-md); overflow: hidden;
     background: var(--surface); border: 1px solid var(--line);
@@ -748,7 +752,7 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
       <div class="eyebrow-wrap"><span class="eyebrow"><span class="eyebrow-dot"></span>Por dentro do app</span></div>
       <h2 class="section-title">Como é praticar no MedMentor</h2>
     </div>
-    <div class="gallery-viewport">
+    <div class="gallery-viewport" id="galleryViewport">
       <div class="gallery-track" id="galleryTrack">
         <div class="gallery-item"><div class="gallery-bar"><span></span><span></span><span></span></div><img src="APP_TELA_1.webp" alt="Tela do guia interativo do MedMentor"><span class="gallery-label">Guia interativo</span></div>
         <div class="gallery-item"><div class="gallery-bar"><span></span><span></span><span></span></div><img src="APP_TELA_2.webp" alt="Tela de caso clínico personalizado do MedMentor"><span class="gallery-label">Caso clínico personalizado</span></div>
@@ -968,17 +972,19 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
     });
   } catch (e) {}
 
-  // Gallery marquee — driven by real elapsed time (rAF), not a CSS animation timeline.
-  // This makes it immune to scroll/paint jank ever making it seem to speed up,
-  // stutter, or desync. Purely decorative: no pause-on-hover/touch, no interactivity.
+  // Gallery marquee — scrolls the real container via scrollLeft (native scrolling),
+  // not CSS transform. This sidesteps a WebKit compositing-layer bug where wide,
+  // continuously-transformed flex content inside an overflow:hidden ancestor can
+  // fail to repaint at the wrap point. pointer-events:none keeps it non-interactive
+  // while still letting JS control the scroll position.
   try {
     (function() {
+      var viewport = document.getElementById('galleryViewport');
       var track = document.getElementById('galleryTrack');
-      if (!track) return;
+      if (!viewport || !track) return;
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-      var pxPerSecond = 43; // ~ same pace as the previous 30s/1290px CSS animation
-      var pos = 0;
+      var pxPerSecond = 43; // matches the previous pace
       var lastTs = null;
       var halfWidth = track.scrollWidth / 2;
 
@@ -993,13 +999,12 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
         if (lastTs === null) lastTs = ts;
         var dt = (ts - lastTs) / 1000;
         // Clamp dt so a throttled/backgrounded tab can never cause a big jump
-        // when the tab regains focus — no "catch up" leap, ever.
         if (dt > 0.25) dt = 0.25;
         lastTs = ts;
         if (halfWidth > 0) {
-          pos -= pxPerSecond * dt;
-          if (pos <= -halfWidth) pos += halfWidth;
-          track.style.transform = 'translateX(' + pos + 'px)';
+          var next = viewport.scrollLeft + pxPerSecond * dt;
+          if (next >= halfWidth) next -= halfWidth;
+          viewport.scrollLeft = next;
         }
         requestAnimationFrame(frame);
       }
