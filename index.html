@@ -400,9 +400,7 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
      GALLERY — DEVICE FRAME CAROUSEL
      ============================================================ */
   .gallery-viewport { overflow: hidden; margin: 56px -24px 0; padding: 6px 0 20px 24px; pointer-events: none; }
-  .gallery-track { display: flex; width: max-content; animation: gallerySlide 30s linear infinite; will-change: transform; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
-  @keyframes gallerySlide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  @media (prefers-reduced-motion: reduce) { .gallery-track { animation: none; } }
+  .gallery-track { display: flex; width: max-content; will-change: transform; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
   .gallery-item {
     flex: 0 0 240px; margin-right: 18px; border-radius: var(--r-md); overflow: hidden;
     background: var(--surface); border: 1px solid var(--line);
@@ -970,8 +968,44 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
     });
   } catch (e) {}
 
-  // Gallery marquee is purely decorative — no pause-on-hover/touch, no interactivity,
-  // nothing to get stuck. It just runs, forever, click/touch-proof via pointer-events:none.
+  // Gallery marquee — driven by real elapsed time (rAF), not a CSS animation timeline.
+  // This makes it immune to scroll/paint jank ever making it seem to speed up,
+  // stutter, or desync. Purely decorative: no pause-on-hover/touch, no interactivity.
+  try {
+    (function() {
+      var track = document.getElementById('galleryTrack');
+      if (!track) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      var pxPerSecond = 43; // ~ same pace as the previous 30s/1290px CSS animation
+      var pos = 0;
+      var lastTs = null;
+      var halfWidth = track.scrollWidth / 2;
+
+      function recalc() { halfWidth = track.scrollWidth / 2; }
+      var resizeTimer;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(recalc, 200);
+      }, { passive: true });
+
+      function frame(ts) {
+        if (lastTs === null) lastTs = ts;
+        var dt = (ts - lastTs) / 1000;
+        // Clamp dt so a throttled/backgrounded tab can never cause a big jump
+        // when the tab regains focus — no "catch up" leap, ever.
+        if (dt > 0.25) dt = 0.25;
+        lastTs = ts;
+        if (halfWidth > 0) {
+          pos -= pxPerSecond * dt;
+          if (pos <= -halfWidth) pos += halfWidth;
+          track.style.transform = 'translateX(' + pos + 'px)';
+        }
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    })();
+  } catch (e) {}
 
 
   // Checkout tracking
@@ -1054,7 +1088,9 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
     (function() {
       var nav = document.getElementById('navbar');
       var bar = document.getElementById('scrollProgress');
-      function onScroll() {
+      var ticking = false;
+      function update() {
+        ticking = false;
         if (nav) nav.classList.toggle('scrolled', window.scrollY > 20);
         if (bar) {
           var h = document.documentElement;
@@ -1062,8 +1098,11 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
           bar.style.width = (isFinite(pct) ? pct : 0) + '%';
         }
       }
+      function onScroll() {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }
       window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
+      update();
     })();
   } catch (e) {}
 
