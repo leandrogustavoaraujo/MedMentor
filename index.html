@@ -400,17 +400,15 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
      GALLERY — DEVICE FRAME CAROUSEL
      ============================================================ */
   .gallery-viewport { overflow: hidden; margin: 56px -24px 0; padding: 6px 0 20px 24px; pointer-events: none; }
-  .gallery-track { display: flex; gap: 18px; width: max-content; animation: gallerySlide 30s linear infinite; }
+  .gallery-track { display: flex; width: max-content; animation: gallerySlide 30s linear infinite; will-change: transform; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
   @keyframes gallerySlide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) { .gallery-track { animation: none; } }
   .gallery-item {
-    flex: 0 0 240px; border-radius: var(--r-md); overflow: hidden;
+    flex: 0 0 240px; margin-right: 18px; border-radius: var(--r-md); overflow: hidden;
     background: var(--surface); border: 1px solid var(--line);
     box-shadow: var(--shadow-md);
     opacity: .92;
   }
-  .gallery-item:nth-child(odd)  { transform: perspective(700px) rotateY(-3deg) scale(.97); }
-  .gallery-item:nth-child(even) { transform: perspective(700px) rotateY(3deg) scale(.97); }
   .gallery-bar { display: flex; gap: 5px; padding: 10px 12px; border-bottom: 1px solid var(--line-soft); }
   .gallery-bar span { width: 6px; height: 6px; border-radius: 50%; background: var(--line); }
   .gallery-item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
@@ -577,7 +575,7 @@ src="https://www.facebook.com/tr?id=989728143663966&ev=PageView&noscript=1"
      SPOTLIGHT HOVER (cursor glow, pointer devices only)
      ============================================================ */
   @media (hover: hover) {
-    .why-card, .testi-card, .compare-card, .bento-cell, .price-card, .gallery-item {
+    .why-card, .testi-card, .compare-card, .bento-cell, .price-card {
       --mx: 50%; --my: 50%; position: relative;
     }
     .why-card::after, .testi-card::after, .compare-card::after, .bento-cell::after, .price-card::after {
